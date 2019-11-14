@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#
+# Usage: ./clone-shopware PATH VERSION
+#
+# Example: ./clone-shopware /tmp 5.3.4
+
+mkdir -p "${1}/opt"
+[ -d ${1}/opt/shopware-${2} ] || git clone -b v${2} --depth 1 https://github.com/shopware/shopware.git "${1}/opt/shopware-${2}"
+
+# clean up existing Shopware installation
+cd "${1}/opt/shopware-${2}" && git reset --hard
+rm -rf "${1}/opt/shopware-${2}/var/cache"/*
+rm -rf "${1}/opt/shopware-${2}/custom/plugins"/*
+rm -rf "${1}/opt/shopware-${2}/engine/Shopware/Plugins/Community/Backend"/*
+rm -rf "${1}/opt/shopware-${2}/engine/Shopware/Plugins/Community/Core"/*
+rm -rf "${1}/opt/shopware-${2}/engine/Shopware/Plugins/Community/Frontend"/*
+rm -rf "${1}/opt/shopware-${2}/engine/Shopware/Plugins/Local/Backend"/*
+rm -rf "${1}/opt/shopware-${2}/engine/Shopware/Plugins/Local/Core"/*
+rm -rf "${1}/opt/shopware-${2}/engine/Shopware/Plugins/Local/Frontend"/*
+rm -rf "${1}/opt/shopware-${2}/tests/Shopware/TempFiles"/*
+rm -rf "${1}/opt/shopware-${2}/web/cache"/*
+rm -rf "${1}/opt/shopware-${2}/var/log"/*
+chmod -R 755 "${1}/opt/shopware-${2}/var"
+chmod -R 755 "${1}/opt/shopware-${2}/web"
+chmod -R 755 "${1}/opt/shopware-${2}/files"
+chmod -R 755 "${1}/opt/shopware-${2}/media"
+chmod -R 755 "${1}/opt/shopware-${2}/engine/Shopware/Plugins/Community"
